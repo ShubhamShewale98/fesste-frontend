@@ -1,0 +1,73 @@
+/* userList.module.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: #f4f4f4;
+    min-height: 100vh;
+  }
+  
+  .card {
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin: 1rem;
+    width: 100%;
+    max-width: 800px;
+  }
+  
+  .card h2 {
+    margin-bottom: 1.5rem;
+    font-size: 2rem;
+    color: #333;
+  }
+  
+  .userItem {
+    border: 1px solid #ddd;
+    padding: 1rem ;
+    margin: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .userInfo {
+    flex: 1;
+  }
+  
+  .userName {
+    font-size: 1.2rem;
+    color: #333;
+    margin-bottom: 0.5rem;
+  }
+  
+  .userEmail {
+    font-size: 1rem;
+    color: #555;
+  }
+  
+  .deleteButton {
+    background-color: #dc3545;
+    color: #ffffff;
+    border: none;
+    border-radius: 4px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .deleteButton:hover {
+    background-color: #c82333;
+  }
+  
+  .noPermission {
+    text-align: center;
+    color: #dc3545;
+    font-size: 1.2rem;
+    margin-top: 2rem;
+  }
+  

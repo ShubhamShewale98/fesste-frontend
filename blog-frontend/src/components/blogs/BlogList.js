@@ -1,58 +1,98 @@
 import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import styles from './blogList.module.css'; // Import the CSS module
+import Modal from '../common/Modal';
+import { useSnackbar } from 'notistack';
 
-const apiUrl = process.env.API || 'http://localhost:8000';
+
 const BlogList = () => {
   const [blogs, setBlogs] = useState([]);
   const { user } = useContext(AuthContext);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [blogToDelete, setBlogToDelete] = useState(null);
   const navigate = useNavigate();
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+  const apiUrl = process.env.API || 'http://localhost:8000';
+
   useEffect(() => {
     const fetchBlogs = async () => {
       const config = {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       };
-      const { data } = await axios.get(`${apiUrl}/api/blogs`,config);
-      setBlogs(data);
+      try {
+        const { data } = await axios.get(`${apiUrl}/api/blogs`, config);
+        setBlogs(data);
+      } catch (err) {
+        console.error('Failed to fetch blogs:', err);
+      }
     };
 
     fetchBlogs();
   }, []);
 
-  const handleDelete = async (id) => {
+ 
+  const handleDeleteBlog = async () => {
+    if (!blogToDelete) return;
+    console.log("blogToDelete",blogToDelete)
     try {
-      await axios.delete(`${apiUrl}/api/blogs/${id}`, {
+      await axios.delete(`${apiUrl}/api/blogs/${blogToDelete}`, {
         headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
       });
-      setBlogs(blogs.filter((blog) => blog._id !== id));
+      setBlogs(blogs.filter((blog) => blog._id !== blogToDelete));
+      enqueueSnackbar(`Blog Deleted Successfuly`,{
+        variant:'success'
+      })
+      setIsModalOpen(false);
     } catch (err) {
-      console.error('Failed to delete blog:', err);
+      console.error('Failed to delete user:', err);
+      enqueueSnackbar(`${err}`,{
+        variant:'error'
+      })
     }
+  };
+  const openModal = (blogID) => {
+    setBlogToDelete(blogID);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setBlogToDelete(null);
   };
   const handleEditBlog = (blogId) => {
     navigate(`/edit-blog/${blogId}`);
   };
 
   return (
-    <div>
-    <h2>All Blogs</h2>
-    {blogs.map((blog) => (
-      <div key={blog._id}>
-        <h3>{blog.title}</h3>
-        <p>{blog.content}</p>
-        <p>By: {blog.author.username}</p>
-        <p>By: {blog.author._id}{user?.id}</p>
-
-        {user && user?.id === blog.author._id && user.role === "customer" && (  // Check if the logged-in user is the author
-          <>
-            <button onClick={() => handleEditBlog(blog._id)}>Edit</button>
-            <button onClick={() => handleDelete(blog._id)}>Delete</button>
-          </>
-        )}
-      </div>
-    ))}
-  </div>
+    <div className={styles.blogContainer}>
+      <h2>All Blogs</h2>
+      {blogs.length > 0 && blogs.map((blog) => (
+        <div key={blog._id} className={styles.blogItem}>
+          <h3 className={styles.blogTitle}>Title:{blog.title}</h3>
+          <p className={styles.blogContent}>Blog:{blog.content}</p>
+          <p className={styles.blogAuthor}>By: {blog.author?.username}</p>
+          
+          {user && user.id === blog.author?._id && user.role === "customer" && (
+            <div className={styles.blogButtons}>
+              <button onClick={() => handleEditBlog(blog._id)} className={styles.blogButton}>
+                Edit
+              </button>
+              <button onClick={() => openModal(blog._id)} className={`${styles.blogButton} ${styles.blogDeleteButton}`}>
+                Delete
+              </button>
+            </div>
+          )}
+        </div>
+      ))}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={handleDeleteBlog}
+        message="Are you sure you want to delete this blog?"
+      />
+    </div>
   );
 };
 

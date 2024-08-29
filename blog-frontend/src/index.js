@@ -6,16 +6,19 @@ import reportWebVitals from './reportWebVitals';
 import { AuthProvider } from './context/AuthContext';
 import { BrowserRouter as Router } from 'react-router-dom';
 import ErrorBoundary from './components/ErrorBoundary';
+import { SnackbarProvider, useSnackbar } from 'notistack'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
   <ErrorBoundary>
+  <SnackbarProvider>
      <Router>
      <AuthProvider>
     <App />
     </AuthProvider>
     </Router>
+    </SnackbarProvider>
     </ErrorBoundary>
      
   </React.StrictMode>
