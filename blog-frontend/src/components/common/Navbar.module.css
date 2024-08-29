@@ -1,0 +1,68 @@
+/* components/layout/Navbar.module.css */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #333;
+  padding: 0.5rem 1rem;
+  color: #fff;
+}
+
+.navLeft {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  font-size: 1.5rem;
+  color: #fff;
+  text-decoration: none;
+  margin-right: 2rem;
+}
+
+.navList {
+  list-style: none;
+  display: flex;
+  margin: 0;
+  padding: 0;
+}
+
+.navItem {
+  margin: 0 1rem;
+}
+
+.navLink {
+  color: #fff;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: color 0.3s ease;
+}
+
+.navLink:hover {
+  color: #f0a500;
+}
+
+.navRight {
+  display: flex;
+  align-items: center;
+}
+
+.userInfo {
+  margin-right: 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.logoutButton {
+  background-color: #f0a500;
+  border: none;
+  padding: 0.5rem 1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logoutButton:hover {
+  background-color: #ff7700;
+}
