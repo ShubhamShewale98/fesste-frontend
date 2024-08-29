@@ -1,6 +1,11 @@
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Deployment
+
+The application is deployed on Netlify and can be accessed at the following URL:
+
+- **Live Site**: [fesstefrontendapp.netlify.app](https://fesstefrontendapp.netlify.app/)
 
 ## Available Scripts
 
